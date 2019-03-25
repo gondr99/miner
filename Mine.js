@@ -1,16 +1,18 @@
 class Mine {
-    constructor(x, y){
+    constructor(x, y, size, gap){
         this.x = x;
         this.y = y;
         this.isMine = false;
         this.value = 0;
         this.reveal = false;
 
-        this.posX = 5 + this.x * 25 + this.x * 4;
-        this.posY = 5 + this.y * 25 + this.y * 4;
-
-        this.size = 25;
+        this.size = size;
         this.border = 3;
+        this.gap = gap;
+
+        this.posX = 5 + this.x * size + this.x * gap;
+        this.posY = 5 + this.y * size + this.y * gap;
+
 
         this.flag = false;
     }
@@ -21,11 +23,11 @@ class Mine {
             this.flag = false;
             return;
         }
+        if(this.reveal){
+            return;
+        }
 
         this.reveal = true;
-        if(this.isMine){
-            return true; //게임오버됨.
-        }
     }
 
     update(){
@@ -68,19 +70,8 @@ class Mine {
         ctx.restore();
     }
 
-    click(x, y){
-        if(this.posX <= x && this.posX + this.size >= x && 
-            this.posY <= y && this.posY + this.size >= y){
-            return this.flip();
-        }else {
-            return false;
-        }
-    }
-
-    flagCheck(x, y){
+    flagCheck(){
         if(this.reveal) return; // 뒤집혀진 애는 뒤집을 필요 없다.
-        if(this.posX <= x && this.posX + this.size >= x && this.posY <= y && this.posY + this.size >= y){
-            this.flag = !this.flag;
-        }
+        this.flag = !this.flag;
     }
 }
