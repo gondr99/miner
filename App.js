@@ -4,6 +4,7 @@ class App{
         this.ctx = this.canvas.getContext("2d");
         this.frame;
         this.mineCount = 8; //초기 지뢰 8개 배치
+        this.flagCount = 0; //깃발 갯수 세기
         this.mineList = [];
         
         this.mineSize = 25;
@@ -58,7 +59,17 @@ class App{
         let idx = this.findIndexOfMine(x, y);
         if(idx < 0) return;
         
+        if(this.flagCount >= this.mineCount) {
+            alert("더이상 깃발을 꽂을 수 없습니다.");
+        }
+
         this.mineList[idx].flagCheck();
+
+        if(this.mineList[idx].flag){
+            this.flagCount++;
+        }else {
+            this.flagCount--;
+        }
     }
 
     checkMineCount(i, j){
